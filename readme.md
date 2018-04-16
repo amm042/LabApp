@@ -28,4 +28,5 @@ Frontend packages (these should get a link):
  * filezie -- makes pretty file sizes
  * moment -- time computations
 
+#### SAMPLE CODE
 In `./prototypes` there are several sample applications.
