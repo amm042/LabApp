@@ -2,8 +2,8 @@
 
 This is the LabApp web-based CS lab management application.
 
+#### BACKEND SERVER
 The server lives in: `./node-labapp`
-
 Backend packages:
  * express
  * cors
@@ -16,8 +16,9 @@ Backend packages:
  * multer -- file upload support
  * multer-s3 -- s3 backend for file upload
 
-The react front end lives in: `./react-labapp`
 
+#### FRONTEND APPLICATION
+The react front end lives in: `./react-labapp`
 Frontend packages (these should get a link):
  * react
  * reactstrap -- bootstrap v4 for react
@@ -26,5 +27,5 @@ Frontend packages (these should get a link):
  * react-dropzone -- file upload dropzone
  * filezie -- makes pretty file sizes
  * moment -- time computations
- 
+
 In `./prototypes` there are several sample applications.
