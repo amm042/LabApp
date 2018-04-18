@@ -1,0 +1,6 @@
+{
+  "dburl": "mongodb://owner:password@hostname/databasename",
+  "dbname": "databasename",
+  "sessionCollection": "labapp-sessions",
+  "port": 4567
+}

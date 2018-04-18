@@ -2,7 +2,7 @@
   "name": "labapp",
   "version": "1.0.0",
   "description": "Node server for LabApp web applications",
-  "main": "labapp.js",
+  "main": "labapp-server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
