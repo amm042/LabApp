@@ -1,0 +1,22 @@
+{
+  "name": "labapp",
+  "version": "1.0.0",
+  "description": "Node server for LabApp web applications",
+  "main": "labapp-server.js",
+  "scripts": {
+    "start-dev": "nodemon labapp-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "connect-mongodb-session": "^2.0.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "google-auth-library": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  }
+}
