@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend server to connect to a MongoDB database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Hello world\"",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greenboigz/csci203.git"
+  },
+  "author": "Sam Greenberg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Greenboigz/csci203/issues"
+  },
+  "homepage": "https://github.com/Greenboigz/csci203#readme",
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^5.0.8"
+  }
+}
