@@ -1,6 +1,20 @@
 {
-  "dburl": "mongodb://owner:password@hostname/databasename",
-  "dbname": "databasename",
-  "sessionCollection": "labapp-sessions",
-  "port": 4567
+  "dburl": "mongodb://user:pass@serverr/dbname",
+  "dbname": "dbname",
+  "collectionPrefix": "labbapp-dev-",
+  "collections":{
+    "sessions": "sessions",
+    "semesters": "semesters",
+    "lateCards": "lateCards",
+    "assignments": "assignments",
+    "people": "people",
+    "problems": "problems",
+    "work": "work",
+    "test": "test",
+    "testResult": "testResult",
+    "audit": "audit"
+  },
+  "port": 4567,
+  "GOOGLE_CLIENT_ID": "1234-abcd.apps.googleusercontent.com",
+  "secret": "string of random chars for cookie signing"
 }

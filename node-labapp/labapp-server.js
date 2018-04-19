@@ -1,133 +1,25 @@
 const express = require('express')
-const cors = require('cors')
-const {OAuth2Client} = require('google-auth-library')
-const bodyParser = require('body-parser')
 
-// also show using browser session to store app info
-const session = require('express-session')
-// use mongodb to hold session info
-const MongoDBStore = require('connect-mongodb-session')(session);
-
-const CLIENT_ID = '939123929106-brcgf18dm3vgu39qe8fml43rc0rs5t7q.apps.googleusercontent.com'
-// download client secret json from the googl ecloud console
-// https://console.cloud.google.com/apis/
-
-const client = new OAuth2Client(CLIENT_ID)
-const app = express()
-
-// this is a json object with the dburl attribute
+// config holds all constant values
 const config = require('./labapp-config.json')
 
-var store = new MongoDBStore(
-  {
-    uri: config.dburl,
-    databaseName: config.dbname,
-    collection: config.sessionCollection
-  });
+// MAIN APP.
+const app = express()
 
-// Catch errors
-store.on('error', function(error) {
-  assert.ifError(error);
-  assert.ok(false);
-});
-
-// can't use * origin with cookies. :(
-// https://stackoverflow.com/questions/33483675/getting-express-server-to-accept-cors-request
-var whitelist = [
-    'http://0.0.0.0:3000',
-    'http://localhost:3000'
-];
-var corsOptions = {
-    origin: function(origin, callback){
-        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-
-        // if you're getting cross-domain errors, check if this origin
-        // matches one of your whitelist options.
-        console.log("corsorigin: ", origin, originIsWhitelisted)
-        callback(null, originIsWhitelisted);
-    },
-    credentials: true
-};
-//https://www.npmjs.com/package/cors#enabling-cors-pre-flight
-app.options('*', cors(corsOptions)) // include before other routes
-
-// not sure we still need this or not.
-app.use(cors(corsOptions))
-
-
-//app.options()
-// parse application/json
-app.use(bodyParser.json())
+// setup CORS
+app.options('*', require("./cors"))
 
 // enable sessions on all routes
-app.use(session({
-  secret: 'This is a secret',
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-  },
-  store: store,
-  // Boilerplate options, see:
-  // * https://www.npmjs.com/package/express-session#resave
-  // * https://www.npmjs.com/package/express-session#saveuninitialized
-  resave: true,
-  saveUninitialized: true
-}));
+app.use(require("./sessions"));
 
-async function verify(token) {
-  let vparams = {
-      idToken: token,
-      audience: CLIENT_ID
-  }
-  //console.log('verify', vparams)
-  const ticket = await client.verifyIdToken(vparams);
-  const payload = ticket.getPayload();
-  //const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  //const domain = payload['hd'];
+// middlewares
+app.use(require('body-parser').json())
 
-  console.log(payload)
-  //console.log(userid)
-  return payload
-}
+// ------------_ ROUTES ------------
+// /auth/login and /auth/logout routes.
+app.use(require("./auth"))
 
-app.post('/logout', (req,res) =>{
-  // log out the current session.
-  req.session.destroy()
-  res.json({result:'ok'})
-})
-
-app.post('/login', (req,res) =>{
-  // https://developers.google.com/identity/sign-in/web/backend-auth
-  // react app handles the login and posts the token here.
-  if ('token' in req.body){
-    console.log("got login request, checking token...")
-
-    // have to verify the token before using
-    verify(req.body.token)
-      .then((profile)=>{
-        console.log("verified sub=", profile.sub,
-          'name=', profile.name,
-          'email=', profile.email,
-          'domain=', profile.hd)
-
-        // make some session counters (just examples)
-        if (!req.session.loginCount){
-          req.session.loginCount=1
-        }else{
-          req.session.loginCount+=1
-        }
-        req.session.profile = profile
-        req.session.lastAccess = new Date()
-
-        res.json({result:'ok'})
-      })
-      .catch((err)=>{
-        console.log(err)
-        res.json({result:'error', error:err})
-      })
-  }
-})
-
+app.use(require("./api"))
 
 app.listen(config.port, () =>
-  console.log('Example app listening on port ' + config.port + '!'))
+  console.log('labapp listening on port ' + config.port + '!'))
