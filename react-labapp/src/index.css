@@ -1,5 +1,18 @@
+/*
+ this code ensures the app uses 100% of the browser window height
+html, body
+{
+    height: 100%;
+}
+.Container{
+  height: 100%;
+}
+div#root {
+  height: 100%;
+} */
 body {
   margin: 0;
   padding: 0;
+  /* min-height: 100%; */
   font-family: sans-serif;
 }
