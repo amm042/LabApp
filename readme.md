@@ -22,10 +22,10 @@ The react front end lives in: `./react-labapp`
 Frontend packages (these should get a link):
  * react
  * reactstrap -- bootstrap v4 for react
- * bootstreap -- bootstrap v4 (needed by reactstrap)
+ * bootstrap -- bootstrap v4 (needed by reactstrap)
  * react-icons -- icon sets
  * react-dropzone -- file upload dropzone
- * filezie -- makes pretty file sizes
+ * filesize -- makes pretty file sizes
  * moment -- time computations
 
 #### SAMPLE CODE

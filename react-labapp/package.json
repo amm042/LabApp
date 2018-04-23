@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.1.0",
+    "filesize": "^3.6.1",
+    "moment": "^2.22.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-scripts": "1.1.4"
+    "react-dropzone": "^4.2.9",
+    "react-favicon": "0.0.14",
+    "react-icons": "^2.2.7",
+    "react-scripts": "1.1.4",
+    "reactstrap": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

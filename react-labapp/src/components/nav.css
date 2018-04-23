@@ -1,0 +1,12 @@
+#brandimg{
+  height:2em;
+}
+
+.nav-userimg{
+  height:4em;
+  border-radius: 50%;
+}
+
+.nav-item{
+  margin:auto;
+}
