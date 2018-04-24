@@ -1,5 +1,5 @@
-var router = require('express').Router()
+var router = require('express').Router();
 
-router.use('/auth', require('./google'))
+router.use('/auth', require('./google'));
 
-module.exports = router
+module.exports = router;

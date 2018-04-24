@@ -1,7 +1,8 @@
+/*jshint esversion: 6 */
+
 var router = require('express').Router();
 const { OAuth2Client } = require('google-auth-library')
-
-const config = require('../labapp-config.json')
+const config = require('../labapp-config.json');
 const client = new OAuth2Client(config.GOOGLE_CLIENT_ID)
 
 

@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 const cors = require('cors')
 
 // can't use * origin with cookies. :(
