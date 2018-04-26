@@ -8,7 +8,6 @@ var personSchema = new Schema({
 	email: String,
 	icon: String,
 	sub: String,
-	role: String
 });
 
 module.exports = mongoose.model( 'Person', personSchema );

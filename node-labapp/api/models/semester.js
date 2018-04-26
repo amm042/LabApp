@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var semesterSchema = new Schema({
 	_id: Schema.Types.ObjectId,
+	course: String,
 	name: String,
 	startingDate: Date,
 	defaultLateCards: Number,

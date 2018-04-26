@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
-var Course = require("../api/models/course");
+var Semester = require("../api/models/semester")
+var Person = require("../api/models/person")
 var router = require("express").Router();
 const { OAuth2Client } = require("google-auth-library");
 const config = require("../labapp-config.json");
@@ -9,10 +10,13 @@ async function verify(token) {
     idToken: token,
     audience: CLIENT_ID
   };
+
   const ticket = await client.verifyIdToken(vparams);
   const payload = ticket.getPayload();
+
   // TODO switch to logging module
   console.log(payload);
+
   return payload;
 }
 
@@ -40,13 +44,50 @@ router.post("/login", (req, res) => {
           "domain=",
           profile.hd
         );
-        // got the profile. Now search for the person in course and semester
-        Course
-          .findOne({ name: req.body.course })
-        .populate({'semester'})
-        
-          function(err, course) {};
-      })
+        // first, let's just update the person
+        Person.findOneAndUpdate({email:profile.email},{$set:{name:profile.name, sub:profile.sub, email:profile.email}},{new: true}, function(err,person){
+          if (err){
+            console.log(err);
+          } else{
+            console.log(person);
+          }
+        });                  
+        Semester
+          .findOne({course: req.body.course, name: req.body.semester})
+          .select("professors", "tas","students")
+          .populate()
+          .exec(function(err,semester){
+            role = "";
+            thePerson = null;
+            for (person in semester.students){
+              if (person.sub == profile.sub){
+                role = "student";
+                thePerson = person;
+                break;
+              }
+            }
+            for (person in semester.tas){
+              if (person.sub == profile.sub){
+                role = "ta";
+                thePerson = person;
+                break;
+              }
+            }
+            for (person in semester.student){
+              if (person.sub == profile.sub){
+                role = "professor";
+                thePerson = person;
+                break;
+              }
+            }
+            if (role == "" || thePerson == null){
+              res.json({ result: "error", error: "the email does not exist in database" });              
+            }
+            else{
+              res.json({result:"ok", person: thePerson, role:role})
+            }
+          });
+        })
       .catch(err => {
         console.log(err);
         res.json({ result: "error", error: err });
