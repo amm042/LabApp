@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-
+var Course = require("../api/models/course");
 var router = require("express").Router();
 const { OAuth2Client } = require("google-auth-library");
 const config = require("../labapp-config.json");
@@ -9,13 +9,10 @@ async function verify(token) {
     idToken: token,
     audience: CLIENT_ID
   };
-
   const ticket = await client.verifyIdToken(vparams);
   const payload = ticket.getPayload();
-
   // TODO switch to logging module
   console.log(payload);
-
   return payload;
 }
 
@@ -28,9 +25,8 @@ router.post("/logout", (req, res) => {
 router.post("/login", (req, res) => {
   // https://developers.google.com/identity/sign-in/web/backend-auth
   // react app handles the login and posts the token here.
-  if ("token" in req.body) {
+  if ("token" in req.body && "course" in req.body && "semester" in req.body) {
     console.log("got login request, checking token...");
-
     // have to verify the token before using
     verify(req.body.token)
       .then(profile => {
@@ -44,14 +40,12 @@ router.post("/login", (req, res) => {
           "domain=",
           profile.hd
         );
-        User.findOne({ sub: profile.sub}, function(err, user) {
-          if (user) {
-            req.session.user = user;
-            req.session.lastAccess = new Date();
-          }
-        });
-
-        res.json({ result: "ok" });
+        // got the profile. Now search for the person in course and semester
+        Course
+          .findOne({ name: req.body.course })
+        .populate({'semester'})
+        
+          function(err, course) {};
       })
       .catch(err => {
         console.log(err);

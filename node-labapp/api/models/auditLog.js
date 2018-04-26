@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
 var auditLogSchema = new Schema({
 	_id: Schema.Types.ObjectId,
 	person: {
@@ -14,5 +13,4 @@ var auditLogSchema = new Schema({
 	localIP: String,
 	hostMachine: String
 });
-
 module.exports = mongoose.model( 'AuditLog', auditLogSchema );
