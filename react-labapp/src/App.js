@@ -5,6 +5,8 @@ import React, { Component } from 'react'
 import {Container } from 'reactstrap'
 import Favicon from 'react-favicon'
 
+import {withRouter} from 'react-router'
+
 /**
  * Styles and images
  */
@@ -22,6 +24,7 @@ import config from './config.json'
  */
 import Wait from './components/wait'
 import Login from './components/login'
+import ClassSemesterModal from './components/classSemesterModal'
 import MainNav from './components/nav'
 import Student from './routes/student'
 import Ta from './routes/ta'
@@ -113,24 +116,33 @@ class App extends Component {
       // NOT LOADING, SIGNED IN, SHOW CORRECT PAGE (TA/STUDENT) AND HEADERs
       head = <MainNav
         guser={this.state.googleUser.profileObj}
-        onSignOut={this.signout}/>
+        onSignOut={this.signout}
+        course={this.props.match.params.course}
+        semester={this.props.match.params.semester}/>
       if (this.state.userType === 'TA'){
         body = <Ta
-          guser={this.state.googleUser.profileObj}/>
+          guser={this.state.googleUser.profileObj}
+          course={this.props.match.params.course}
+          semester={this.props.match.params.semester}/>
       } else {
         body = <Student
-          guser={this.state.googleUser.profileObj}/>
+          guser={this.state.googleUser.profileObj}
+          course={this.props.match.params.course}
+          semester={this.props.match.params.semester}/>
       }
     }else{
       // NOT LOADING, NOT SIGNED IN, SHOW LOGIN PROMPT.
       body = <Login
         onResult={this.signin}
-        clientId={config.CLIENT_ID}/>
+        clientId={config.CLIENT_ID}
+        course={this.props.match.params.course}
+        semester={this.props.match.params.semester}/>
     }
 
     return (
           <Container>
             {fav}
+            <ClassSemesterModal location={this.props.location}/>
             {head}
             {body}
             {foot}
@@ -139,4 +151,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
