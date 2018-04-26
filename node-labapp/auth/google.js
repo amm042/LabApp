@@ -84,7 +84,11 @@ router.post("/login", (req, res) => {
               res.json({ result: "error", error: "the email does not exist in database" });              
             }
             else{
-              res.json({result:"ok", person: thePerson, role:role})
+              req.session.profile = profile;
+              req.session.role = role;
+              req.session.course = course;
+              req.session.semester = semester;
+              res.json({result:"ok", person: thePerson, role:role});
             }
           });
         })

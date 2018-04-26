@@ -11,7 +11,7 @@ var semesterSchema = new Schema({
 					ref:'Assignment'}],
 	professors: [{ type:Schema.Types.ObjectId,
 					ref:'Person'}],
-	TAs: [{ type:Schema.Types.ObjectId,
+	tas: [{ type:Schema.Types.ObjectId,
 					ref:'Person'}],
 	students: [{ type:Schema.Types.ObjectId,
 					ref:'Person'}]
