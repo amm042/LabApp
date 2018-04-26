@@ -15,6 +15,7 @@ import "./nav.css"
 class MainNav extends Component {
   constructor(props){
     super(props)
+
     this.state={
       menuOpen: false
     }
@@ -30,7 +31,7 @@ class MainNav extends Component {
       <Navbar color="light" light expand="sm">
         <NavbarBrand href="/" className="p-0 m-0">
           <img src={appico} id="brandimg" alt="LabApp"/>
-          <span className="p-2">LabApp</span>
+          <span className="p-2">LabApp - {this.props.course} - {this.props.semester}</span>
         </NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
 

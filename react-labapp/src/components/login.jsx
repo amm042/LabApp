@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 //import GoogleLogin from 'react-google-login';
 import {Button} from 'reactstrap'
-import logo from '../img/CompSciLogo.png';
+import logo from '../img/CompSciLogo.png'
+
+import {withRouter} from 'react-router'
 
 import './login.css'
 
@@ -10,7 +12,11 @@ class Login extends Component{
     super(props)
     this.signin = this.signin.bind(this)
     this.state = {
-      disabled: true
+      disabled: true,
+      courses: { // TODO get this from backend.
+        'CSCI203':['SP2018','FA2018'],
+        'CSCI204': ['SP2018']
+      }
     }
   }
   componentDidMount(){
@@ -64,6 +70,7 @@ class Login extends Component{
         <div className="text-center" id="signin-container">
           <img className="img-fluid" src={logo} alt="Computer Science"/>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+
           <Button
             color='primary'
             block
@@ -76,4 +83,4 @@ class Login extends Component{
   }
 }
 
-export default Login
+export default withRouter(Login)
