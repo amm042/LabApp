@@ -10,18 +10,26 @@ export default class UserCard extends Component {
         this.state = {
             name: props.user.prefName,
             email: props.user.email,
-            icon: props.user.icon || DefaultUser
+            icon: props.user.icon || DefaultUser,
+            onClick: props.onClick,
+            onDoubleClick: props.onDoubleClick
         }
-
-        this.onClick = props.onClick;
     }
 
-
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            name: nextProps.user.prefName,
+            email: nextProps.user.email,
+            icon: nextProps.user.icon || DefaultUser,
+            onClick: nextProps.onClick,
+            onDoubleClick: nextProps.onDoubleClick
+        })
+    }
 
     render() {
         return (
-            <div className="UserCard" onClick={this.onClick}>
-                <Image src={ this.state.icon } alt={ this.state.prefName } circle />
+            <div className="UserCard" onClick={this.state.onClick} onDoubleClick={this.state.onDoubleClick}>
+                <Image src={ `https://myapi.bucknell.edu/framework/media/person/${this.state.email.replace('@bucknell.edu', '')}?access_token=70c746e5-0a28-4c56-a4b7-84ade9d05940&width=128&height=128` } alt={ this.state.prefName } circle />
                 <b>{this.state.name}</b><br/>
                 {this.state.email}
             </div>

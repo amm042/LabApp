@@ -46,7 +46,8 @@ class ModalForm extends Component {
       title: nextProps.title,
       inputs: nextProps.inputs,
       show: nextProps.show,
-      text: nextProps.text
+      text: nextProps.text,
+      loading: false
     });
   }
 
@@ -81,6 +82,7 @@ class ModalForm extends Component {
       outputs[input.id] = input.value;
     });
     this.handleSubmit(outputs);
+    // console.log("Submitting", outputs);
   }
 
   render() {

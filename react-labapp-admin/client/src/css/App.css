@@ -205,7 +205,7 @@ textarea {
   color: #CCC;
 }
 
-.Homework .dragged {
+.Homework .dragged, .ClassBuilder .dragged {
   z-index: 100;
 }
 
@@ -250,15 +250,23 @@ textarea {
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
+  min-height: 100px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-.UserCard {
-  padding: 10px;
-  height: 210px;
-  width: 170px;
+.UserCard, .TempUserCard {
+  padding: 5px;
+  height: 125px;
+  width: 100px;
   margin: auto;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 10px;
+}
+
+.TempUserCard {
+  background: #eeeeee;
 }
 
 .UserCard:hover {
@@ -266,6 +274,20 @@ textarea {
 }
 
 .UserCard img {
-  height: 150px;
-  width: 150px;
+  height: 90px;
+  width: 90px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.noselect img {
+  -webkit-user-drag: none;
 }
