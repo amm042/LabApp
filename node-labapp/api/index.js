@@ -124,21 +124,21 @@ router.get("/professors", (req, res, next) => {
 });
 
 router.get("/tas", (req, res, next) => {
-    // 
+    //
 });
 
 router.get("/instructors", (req, res, next) => {
-    // 
+    //
 });
 
 router.get("/courses", (req, res, next) => {
-    // 
+    //
 });
 
 router.get("/courses", (req, res, next) => {
-    // 
+    //
 });
 
 router.get("/student", verifyRole, (req, res, next) => {});
 
-export default router;
+module.exports = router;

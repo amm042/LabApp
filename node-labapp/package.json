@@ -14,7 +14,8 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "google-auth-library": "^1.4.0"
+    "google-auth-library": "^1.4.0",
+    "mongoose": "^5.0.16"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"
