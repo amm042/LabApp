@@ -44,15 +44,16 @@ function onFailureFetchProblems(error) {
 /**
  * Adds a problem to the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @param {*} assignment
  * @param {*} problem
  * @return {Promise}
  */
-export function DispatchAddProblem(dispatch, semester, assignment, problem) {
+export function DispatchAddProblem(dispatch, course, semester, assignment, problem) {
   return new Promise((resolve, reject) => {
     dispatch(AddProblem(problem));
-    fetch(`${server_url}/semesters/${semester.name}/${assignment.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}/${assignment.name}`, {
       body: JSON.stringify(problem),
       headers: {
         'Content-Type': 'application/json',
@@ -88,16 +89,17 @@ function onFailureAddProblem(error) {
 /**
  * Edits a problem on the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @param {*} assignment
  * @param {*} old_problem - this is the name of the problem in case it is updated
  * @param {*} problem
  * @return {Promise}
  */
-export function DispatchEditProblem(dispatch, semester, assignment, old_problem, problem) {
+export function DispatchEditProblem(dispatch, course, semester, assignment, old_problem, problem) {
   return new Promise((resolve, reject) => {
     dispatch(EditProblem(problem));
-    fetch(`${server_url}/semesters/${semester.name}/${assignment.name}/${old_problem.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}/${assignment.name}/${old_problem.name}`, {
       body: JSON.stringify(problem),
       headers: {
         'Content-Type': 'application/json',
@@ -132,15 +134,16 @@ function onFailureEditProblem(error) {
 /**
  * Deletes a problem from the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @param {*} assignment
  * @param {*} problem
  * @return {Promise}
  */
-export function DispatchDeleteProblem(dispatch, semester, assignment, problem) {
+export function DispatchDeleteProblem(dispatch, course, semester, assignment, problem) {
   return new Promise((resolve, reject) => {
     dispatch(DeleteProblem(problem));
-    fetch(`${server_url}/semesters/${semester.name}/${assignment.name}/${problem.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}/${assignment.name}/${problem.name}`, {
       headers: {
         'Content-Type': 'application/json',
       },

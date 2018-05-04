@@ -44,14 +44,15 @@ function onFailureFetchAssignments(error) {
 /**
  * Adds a assignment to the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @param {*} assignment
  * @return {Promise}
  */
-export function DispatchAddAssignment(dispatch, semester, assignment) {
+export function DispatchAddAssignment(dispatch, course, semester, assignment) {
   return new Promise((resolve, reject) => {
     dispatch(AddAssignment(assignment));
-    fetch(`${server_url}/semesters/${semester.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}`, {
       body: JSON.stringify(assignment),
       headers: {
         'Content-Type': 'application/json',
@@ -87,15 +88,16 @@ function onFailureAddAssignment(error) {
 /**
  * Edits a assignment on the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @param {*} old_assignment - this is the name of the assignment in case it is updated
  * @param {*} assignment
  * @return {Promise}
  */
-export function DispatchEditAssignment(dispatch, semester, old_assignment, assignment) {
+export function DispatchEditAssignment(dispatch, course, semester, old_assignment, assignment) {
   return new Promise((resolve, reject) => {
     dispatch(EditAssignment(assignment));
-    fetch(`${server_url}/semesters/${semester.name}/${old_assignment.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}/${old_assignment.name}`, {
       body: JSON.stringify(assignment),
       headers: {
         'Content-Type': 'application/json',
@@ -130,14 +132,15 @@ function onFailureEditAssignment(error) {
 /**
  * Deletes a assignment from the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @param {*} assignment
  * @return {Promise}
  */
-export function DispatchDeleteAssignment(dispatch, semester, assignment) {
+export function DispatchDeleteAssignment(dispatch, course, semester, assignment) {
   return new Promise((resolve, reject) => {
     dispatch(DeleteAssignment(assignment));
-    fetch(`${server_url}/semesters/${semester.name}/${assignment.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}/${assignment.name}`, {
       headers: {
         'Content-Type': 'application/json',
       },

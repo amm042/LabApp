@@ -1,5 +1,6 @@
 'use strict';
 module.exports = function(app) {
+  var course_routes = require('./course-routes');
   var semester_routes = require('./semester-routes');
   var assignment_routes = require('./assignment-routes');
   var problem_routes = require('./problem-routes');
@@ -11,6 +12,7 @@ module.exports = function(app) {
     next();
   });
 
+  course_routes(app);
   semester_routes(app);
   assignment_routes(app);
   problem_routes(app);

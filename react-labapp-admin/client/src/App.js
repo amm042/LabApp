@@ -4,10 +4,9 @@ import { GoogleLogin } from 'react-google-login';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import logo from './img/CompSciLogo.png';
 
-import { NavLink, Link, Route, Switch } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import { CLIENT_ID } from './keys/GoogleOAuth';
-import SEMESTERS from './InitSemesters';
 import MainContent from './jsx/MainContent';
 
 import { createStore } from 'redux';
@@ -34,8 +33,7 @@ class App extends Component {
     loggedIn: false,
     profile: {},
     token: -1,
-    error: null,
-    semesters: SEMESTERS
+    error: null
   }
 
   selectTest(response) {
@@ -84,17 +82,17 @@ class App extends Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <li className={location === 'homeworks' ? "active" : null}>
+                        <li className={location === 'homeworks' ? "active" : ""}>
                           <NavLink to="/homeworks">
                               Homeworks
                           </NavLink>
                         </li>
-                        <li className={location === 'calendar' ? "active" : null}>
+                        <li className={location === 'calendar' ? "active" : ""}>
                           <NavLink to="/calendar">
                               Calendar
                           </NavLink>
                         </li>
-                        <li className={location === 'classes' ? "active" : null}>
+                        <li className={location === 'classes' ? "active" : ""}>
                           <NavLink to="/classes">
                               Classes
                           </NavLink>

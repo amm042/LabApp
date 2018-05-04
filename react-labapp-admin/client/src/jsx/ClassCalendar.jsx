@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Panel, ButtonGroup, Button, Row, Col, Glyphicon } from 'react-bootstrap';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
@@ -15,20 +17,23 @@ class ClassCalendar extends Component {
     super(props);
 
     this.state = {
-      semesters: props.semesters
+      course: null,
+      courses: props.courses
     }
 
     this.onSelectEvent = this.onSelectEvent.bind(this);
+    this.onSelectCourse = this.onSelectCourse.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      semesters: nextProps.semesters
-    })
+      // course: nextProps.courses.list.find(course => course.name === nextProps.match.match.params.course),
+      courses: nextProps.courses
+    });
   }
 
   onSelectEvent(event) {
-    let path = "/homeworks";
+    let path = "/homeworks/" + this.state.course.name;
     event.path.forEach(item => {
       path += '/' + item;
     });
@@ -38,39 +43,41 @@ class ClassCalendar extends Component {
   getEventList() {
     const eventList = [];
     let index = 0, sem_date, ass_date, end_ass_date, prob_date, end_prob_date;
-    this.state.semesters.list.forEach((semester, sem_index) => {
-      sem_date = new Date(semester.startDate.getTime());
-      semester.assignments.forEach((assignment, ass_index) => {
-        ass_date = new Date(sem_date.getTime());
-        ass_date.setDate(sem_date.getDate() + 7 * ass_index);
-        end_ass_date = new Date(ass_date.getTime());
-        end_ass_date.setDate(end_ass_date.getDate() + 7);
-        eventList.push({
-          id: index++,
-          path: [semester.name, assignment.name],
-          title: `${assignment.name}`,
-          allDay: true,
-          start: ass_date,
-          end: end_ass_date,
-          color: "red"
-        });
-        assignment.problems.forEach((problem, prob_index) => {
-          prob_date = new Date(ass_date.getTime());
-          prob_date.setDate(ass_date.getDate() + problem.dayOffset);
-          end_prob_date = new Date(prob_date.getTime());
-          end_prob_date.setDate(end_prob_date.getDate() + 1);
+    if (this.state.course) {
+      this.state.course.semesters.forEach((semester, sem_index) => {
+        sem_date = new Date(semester.startDate.getTime());
+        semester.assignments.forEach((assignment, ass_index) => {
+          ass_date = new Date(sem_date.getTime());
+          ass_date.setDate(sem_date.getDate() + 7 * ass_index);
+          end_ass_date = new Date(ass_date.getTime());
+          end_ass_date.setDate(end_ass_date.getDate() + 6);
           eventList.push({
             id: index++,
-            path: [semester.name, assignment.name, problem.name],
-            title: `${assignment.name} - ${problem.name}`,
+            path: [semester.name, assignment.name],
+            title: `${assignment.name}`,
             allDay: true,
-            start: prob_date,
-            end: end_prob_date,
-            color: "blue"
+            start: ass_date,
+            end: end_ass_date,
+            color: "red"
+          });
+          assignment.problems.forEach((problem, prob_index) => {
+            prob_date = new Date(ass_date.getTime());
+            prob_date.setDate(ass_date.getDate() + problem.dayOffset);
+            end_prob_date = new Date(prob_date.getTime());
+            end_prob_date.setDate(end_prob_date.getDate());
+            eventList.push({
+              id: index++,
+              path: [semester.name, assignment.name, problem.name],
+              title: `${assignment.name} - ${problem.name}`,
+              allDay: true,
+              start: prob_date,
+              end: end_prob_date,
+              color: "blue"
+            });
           });
         });
       });
-    });
+    }
     return eventList;
   }
 
@@ -155,19 +162,38 @@ class ClassCalendar extends Component {
     );
   }
 
+  onSelectCourse(selectedOption) {
+    if (selectedOption)
+      this.setState({ course: this.props.courses.list.find(course => course.name === selectedOption.value) })
+  }
+
+  getCourseDropdown() {
+    let courses = [{ value: null, label: "Select the Course" }];
+    this.state.courses.list.forEach(course => { courses.push({ value: course.name, label: course.full_name }) });
+    return (
+      <Select 
+        name="course-dropdown"
+        placeholder="Select the Course"
+        value={ (this.state.course !== null && this.state.course !== undefined) ? this.state.course.name : null }
+        onChange={ this.onSelectCourse }
+        options={ courses }
+        />
+    );
+  }
+
   render() {
     return (
       <div className="ClassCalendar">
         <Panel>
           <Panel.Heading className="center" componentClass="h3">
             <Row className="show-grid">
-              <Col sm={2}>
-
+              <Col sm={3} style={{ textAlign:'left' }}>
+                
               </Col>
-              <Col sm={8}>
-                Calendar View
+              <Col sm={6}>
+                { this.getCourseDropdown() }
               </Col>
-              <Col sm={2} className="right">
+              <Col sm={3} className="right">
                 { /*this.getEditButton()*/ }
               </Col>
             </Row>
@@ -194,11 +220,13 @@ class ClassCalendar extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log(state.semesters);
   const assignments = { ...state.assignments, list: state.assignments.list.map(assignment => { return { ...assignment, problems: [] } }) };
   state.assignments.list.forEach((assignment, index) => {
     assignment.problems.forEach(prob_id => {
-      assignments.list[index].problems.push(state.problems.list.find(prob => prob._id === prob_id));
+      let prob = state.problems.list.find(prob => prob._id === prob_id);
+      if (prob) {
+        assignments.list[index].problems.push(prob);
+      }
     });
   });
   const semesters = { ...state.semesters, list: state.semesters.list.map(semester => { return { ...semester, assignments: [] } }) };
@@ -207,11 +235,27 @@ const mapStateToProps = state => {
       semesters.list[index].startDate = new Date(Date.parse(semester.startDate));
     }
     semester.assignments.forEach(ass_id => {
-      semesters.list[index].assignments.push(assignments.list.find(ass => ass._id === ass_id));
+      let ass = assignments.list.find(ass => ass._id === ass_id);
+      if (ass) {
+        semesters.list[index].assignments.push(ass);
+      }
     });
   });
+  const courses = { ...state.courses, list: state.courses.list.map(course => { return { ...course, semesters: [] } }) };
+  state.courses.list.forEach((course, index) => {
+    courses.list[index].name = course.name;
+    courses.list[index].full_name = course.full_name;
+    courses.list[index].description = course.description;
+    course.semesters.forEach(sem_id => {
+      let sem = semesters.list.find(sem => sem._id === sem_id);
+      if (sem) {
+        courses.list[index].semesters.push(sem);
+      }
+    })
+  });
+
   return {
-    semesters: semesters
+    courses: courses
   }
 }
 

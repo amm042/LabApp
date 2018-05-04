@@ -3,6 +3,7 @@ var express = require('express'),
   port = process.env.PORT || 8000,
   mongoose = require('mongoose'),
   db_config = require('./db_config'),
+  Course = require('./api/models/course-model'),
   Semester = require('./api/models/semester-model'), //created model loading here
   Assignment = require('./api/models/assignment-model'),
   Problem = require('./api/models/problem-model'),
