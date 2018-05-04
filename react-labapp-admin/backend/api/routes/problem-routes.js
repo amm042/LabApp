@@ -5,11 +5,11 @@ module.exports = function(app) {
   app.route('/problems')
     .get(problems.getAll);
 
-  app.route('/semesters/:semester_name/:assignment_name')
+  app.route('/courses/:course_name/:semester_name/:assignment_name')
     .post(problems.addProblem);
 
   // Assignment Routes
-  app.route('/semesters/:semester_name/:assignment_name/:problem_name')
+  app.route('/courses/:course_name/:semester_name/:assignment_name/:problem_name')
     .get(problems.getProblem)
     .put(problems.updateProblem)
     .delete(problems.deleteProblem);

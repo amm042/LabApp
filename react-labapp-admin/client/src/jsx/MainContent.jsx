@@ -7,6 +7,7 @@ import ClassBuilder from './ClassBuilder';
 
 import { Route, Switch, withRouter } from 'react-router-dom';
 
+import { DispatchFetchCourses } from '../redux/coursesActions';
 import { DispatchFetchSemesters } from '../redux/semestersActions';
 import { DispatchFetchAssignments } from '../redux/assignmentsActions';
 import { DispatchFetchProblems } from '../redux/problemsActions';
@@ -35,19 +36,12 @@ class MainContent extends Component {
     return (
       <Switch>
         <Route exact path='/' component={match => <div>Home</div>}/>
-        <Route path='/homeworks/:semester?/:assignment?/:problem?' component={
-            match => (
-              <Homework match={match} />
-            )
-          }/>
-        <Route path='/calendar' component={
-          match => (
-              <ClassCalendar match={match} />
-            )
-          }/>
-        <Route path='/classes' component={
-          match => ( <ClassBuilder match={match} /> )
-          }/>
+        <Route path='/homeworks/:course?/:semester?/:assignment?/:problem?' 
+          component={ match => <Homework match={match} /> }/>
+        <Route path='/calendar' 
+          component={ match => <ClassCalendar match={match} /> }/>
+        <Route path='/classes/:course?' 
+          component={ match => <ClassBuilder match={match} /> }/>
       </Switch>
     );
   }
@@ -57,6 +51,7 @@ class MainContent extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     loadStore: () => {
+      DispatchFetchCourses(dispatch);
       DispatchFetchSemesters(dispatch);
       DispatchFetchAssignments(dispatch);
       DispatchFetchProblems(dispatch);

@@ -291,3 +291,17 @@ textarea {
 .noselect img {
   -webkit-user-drag: none;
 }
+
+.select {
+  display: inline-block !important;
+  width: 250px !important;
+  font-size: large !important;
+}
+
+.select option {
+  font-size: large;
+}
+
+.Select-menu-outer {
+  z-index: 10;
+}

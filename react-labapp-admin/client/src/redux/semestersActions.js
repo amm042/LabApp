@@ -1,3 +1,5 @@
+import { onSuccessEditCourse } from './coursesActions';
+
 const server_url = "http://localhost:8000";
 
 /**
@@ -42,13 +44,14 @@ function onFailureFetchSemesters(error) {
 /**
  * Adds a semester to the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @return {Promise}
  */
-export function DispatchAddSemester(dispatch, semester) {
+export function DispatchAddSemester(dispatch, course, semester) {
   return new Promise((resolve, reject) => {
     dispatch(AddSemester(semester));
-    fetch(`${server_url}/semesters`, {
+    fetch(`${server_url}/courses/${course.name}`, {
       body: JSON.stringify(semester),
       headers: {
         'Content-Type': 'application/json',
@@ -60,6 +63,7 @@ export function DispatchAddSemester(dispatch, semester) {
           dispatch(onFailureAddSemester(json.error));
           reject(json.error);
         } else {
+          dispatch(onSuccessEditCourse(json.course));
           dispatch(onSuccessAddSemester(json.semester));
           resolve();
         }
@@ -83,14 +87,15 @@ function onFailureAddSemester(error) {
 /**
  * Edits a semester on the database
  * @param {Dispatch} dispatch
- * @param {*} old_semester - this is the name of the semester in case it is updated
+ * @param {*} course
+ * @param {*} old_semester
  * @param {*} semester
  * @return {Promise}
  */
-export function DispatchEditSemester(dispatch, old_semester, semester) {
+export function DispatchEditSemester(dispatch, course, old_semester, semester) {
   return new Promise((resolve, reject) => {
     dispatch(EditSemester(semester));
-    fetch(`${server_url}/semesters/${old_semester.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${old_semester.name}`, {
       body: JSON.stringify(semester),
       headers: {
         'Content-Type': 'application/json',
@@ -125,13 +130,14 @@ function onFailureEditSemester(error) {
 /**
  * Deletes a semester from the database
  * @param {Dispatch} dispatch
+ * @param {*} course
  * @param {*} semester
  * @return {Promise}
  */
-export function DispatchDeleteSemester(dispatch, semester) {
+export function DispatchDeleteSemester(dispatch, course, semester) {
   return new Promise((resolve, reject) => {
     dispatch(DeleteSemester(semester));
-    fetch(`${server_url}/semesters/${semester.name}`, {
+    fetch(`${server_url}/courses/${course.name}/${semester.name}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -142,7 +148,8 @@ export function DispatchDeleteSemester(dispatch, semester) {
           dispatch(onFailureDeleteSemester(json.error));
           reject(json.error);
         } else {
-          dispatch(onSuccessDeleteSemester(json.semester));
+          dispatch(onSuccessEditCourse(json.course));
+          dispatch(onSuccessDeleteSemester(json.course, json.semester));
           resolve();
         }
       }
@@ -154,7 +161,7 @@ function DeleteSemester() {
   return { type: "DELETE_SEMESTER" };
 }
 
-function onSuccessDeleteSemester(semester) {
+function onSuccessDeleteSemester(course, semester) {
   return { type: "DELETE_SEMESTER_SUCCESS", data: { semester } };
 }
 

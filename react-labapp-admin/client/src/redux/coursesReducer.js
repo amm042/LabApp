@@ -9,100 +9,100 @@ export default function reducer(state=INIT_STATE, action){
   let result = { ...state };
   let index = -1;
   switch (action.type) {
-    case "FETCH_SEMESTERS":
-      console.log("Fetching Semesters...");
+    case "FETCH_COURSES":
+      console.log("Fetching Courses...");
       result = {
         ...state,
         is_loading: true,
         status: null
       };
       break;
-    case "FETCH_SEMESTERS_SUCCESS":
-      console.log("Fetch Semesters Success!");
+    case "FETCH_COURSES_SUCCESS":
+      console.log("Fetch Courses Success!");
       result = {
         ...state,
         is_loading: false,
         status: "Success",
-        list: action.data.semesters
+        list: action.data.courses
       };
       break;
-    case "FETCH_SEMESTERS_FAILURE":
-      console.log("Fetch Semesters Failure!");
+    case "FETCH_COURSES_FAILURE":
+      console.log("Fetch Courses Failure!");
       result = {
         ...state,
         is_loading: false,
         status: `Error - ${action.data.error.errmsg}`,
         list: [
           ...state,
-          action.data.semester
+          action.data.course
         ]
       };
       break;
-    case "ADD_SEMESTER":
+    case "ADD_COURSE":
       result = {
         ...state,
         is_loading: true,
         status: null
       };
       break;
-    case "ADD_SEMESTER_SUCCESS":
+    case "ADD_COURSE_SUCCESS":
       result = {
         ...state,
         is_loading: false,
         status: "Success",
         list: [
           ...state.list,
-          action.data.semester
+          action.data.course
         ]
       };
       break;
-    case "ADD_SEMESTER_FAILURE":
+    case "ADD_COURSE_FAILURE":
       result = {
         ...state,
         is_loading: false,
         status: `Error - ${action.data.error.errmsg}`
       };
       break;
-    case "EDIT_SEMESTER":
+    case "EDIT_COURSE":
       result = {
         ...state,
         is_loading: true,
         status: null
       };
       break;
-    case "EDIT_SEMESTER_SUCCESS":
-      index = state.list.findIndex(semester => semester._id === action.data.semester._id);
-      result.list[index] = action.data.semester;
+    case "EDIT_COURSE_SUCCESS":
+      index = state.list.findIndex(course => course._id === action.data.course._id);
+      result.list[index] = action.data.course;
       break;
-    case "EDIT_SEMESTER_FAILURE":
+    case "EDIT_COURSE_FAILURE":
       result = {
         ...state,
         is_loading: false,
         status: `Error - ${action.data.error.errmsg}`,
         list: [
           ...state,
-          action.data.semester
+          action.data.course
         ]
       };
       break;
-    case "DELETE_SEMESTER":
+    case "DELETE_COURSE":
       result = {
         ...state,
         is_loading: true,
         status: null
       };
       break;
-    case "DELETE_SEMESTER_SUCCESS":
-      result.list = state.list.filter(semester => semester._id !== action.data.semester._id);
+    case "DELETE_COURSE_SUCCESS":
+      result.list = state.list.filter(course => course._id !== action.data.course._id);
       break;
-    case "DELETE_SEMESTER_FAILURE":
+    case "DELETE_COURSE_FAILURE":
       result = {
         ...state,
         is_loading: false,
         status: `Error - ${action.data.error.errmsg}`,
         list: [
           ...state,
-          action.data.semester
+          action.data.course
         ]
       };
       break;

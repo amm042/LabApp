@@ -5,9 +5,11 @@ module.exports = function(app) {
   // semester Routes
   app.route('/semesters')
     .get(semesters.getAll)
+
+  app.route('/courses/:course_name')
     .post(semesters.addSemester);
 
-  app.route('/semesters/:semester_name')
+  app.route('/courses/:course_name/:semester_name')
     .get(semesters.getSemester)
     .put(semesters.updateSemester)
     .delete(semesters.deleteSemester);

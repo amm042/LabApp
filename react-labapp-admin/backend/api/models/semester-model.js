@@ -7,8 +7,7 @@ let SemesterSchema = new Schema(
   {
     name: {
       type: String,
-      required: 'Please enter the name of the semester',
-      unique: true
+      default: ""
     },
     startDate: {
       type: Date,

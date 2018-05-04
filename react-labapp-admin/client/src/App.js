@@ -7,7 +7,6 @@ import logo from './img/CompSciLogo.png';
 import { NavLink, Link } from 'react-router-dom';
 
 import { CLIENT_ID } from './keys/GoogleOAuth';
-import SEMESTERS from './InitSemesters';
 import MainContent from './jsx/MainContent';
 
 import { createStore } from 'redux';
@@ -34,8 +33,7 @@ class App extends Component {
     loggedIn: false,
     profile: {},
     token: -1,
-    error: null,
-    semesters: SEMESTERS
+    error: null
   }
 
   selectTest(response) {
