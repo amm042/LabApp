@@ -353,6 +353,9 @@ class Homework extends Component {
 
   getPage() {
     if (this.state.path.length === 5) {
+      if (this.state.tempContent === "" && this.state.editting && this.getPath().problem.content !== "") {
+        this.setState({ tempContent: this.getPath().problem.content });
+      }
       return (
         <Panel>
           <Panel.Heading className="center" componentClass="h3">
@@ -371,7 +374,7 @@ class Homework extends Component {
           <Panel.Body>
             <DualEditor height={400}
               editting={this.state.editting}
-              content={(this.state.editting) ? this.state.tempContent : this.getPath().problem.content }
+              content={ (this.state.editting) ? this.state.tempContent : this.getPath().problem.content }
               onUpdate={content => this.setState({tempContent: content})} />
           </Panel.Body>
         </Panel>
