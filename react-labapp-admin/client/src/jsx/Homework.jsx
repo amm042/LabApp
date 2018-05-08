@@ -302,16 +302,16 @@ class Homework extends Component {
           {
             (list.length > 0) ?
             <Reorder
-              reorderId={this.state.path.toString() + (new Date()).toString()}
+              reorderId={ this.state.path.toString() }
               reorderGroup="reorder-group"
               component="div"
               lock="horizontal"
               holdTime={500}
               touchHoldTime={500}
               mouseHoldTime={150}
-              onReorder={this.onReorder}
-              autoScroll={true}
-              disabled={!this.state.editting}
+              onReorder={ this.onReorder }
+              autoScroll={ true }
+              disabled={ !this.state.editting }
               placeholder={
                 <div className="list-group-item placeholder">
                   Placeholder
@@ -373,7 +373,7 @@ class Homework extends Component {
           </Panel.Heading>
           <Panel.Body>
             <DualEditor height={400}
-              editting={this.state.editting}
+              editting={ this.state.editting }
               content={ (this.state.editting) ? this.state.tempContent : this.getPath().problem.content }
               onUpdate={content => this.setState({tempContent: content})} />
           </Panel.Body>

@@ -47,7 +47,7 @@ class DualEditor extends Component {
     super(props);
 
     this.state = {
-      mode: props.mode || "editor",
+      mode: "editor",
       content: props.content,
       editting: props.editting,
     }
@@ -59,7 +59,6 @@ class DualEditor extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      mode: nextProps.mode || "editor",
       content: nextProps.content,
       editting: nextProps.editting,
     })
